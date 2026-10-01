@@ -66,7 +66,9 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "EC2SSHKEY">~/.ssh/idrsachmod600~/.ssh/idrsassh-keyscan-H"EC2_HOST" >> ~/.ssh/known_hosts
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
 
       - name: Copy Application to EC2
         env:
