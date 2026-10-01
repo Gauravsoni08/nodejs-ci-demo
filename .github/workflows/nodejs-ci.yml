@@ -76,7 +76,7 @@ jobs:
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
         run: |
           scp -i ~/.ssh/id_rsa -r dist \
-            "EC2USERNAME@EC2_HOST:/home/ubuntu/nodejs-ci-demo/"
+            "$EC2_USERNAME@$EC2_HOST:/home/ubuntu/nodejs-ci-demo/"
 
       - name: Restart Application
         env:
@@ -84,11 +84,11 @@ jobs:
           EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
         run: |
           ssh -i ~/.ssh/id_rsa \
-            "EC2USERNAME@EC2_HOST" \
+            "$EC2_USERNAME@$EC2_HOST" \
             'cd /home/ubuntu/nodejs-ci-demo &&
              if pm2 describe nodejs-app >/dev/null 2>&1; then
-               pm2 restart nodejs-app
+              pm2 restart nodejs-app
              else
-               pm2 start dist/app.js --name nodejs-app
+              pm2 start dist/app.js --name nodejs-app
              fi &&
              pm2 save'
